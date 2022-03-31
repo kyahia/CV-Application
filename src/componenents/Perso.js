@@ -1,96 +1,75 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import './sections.css'
 
-export default class PersonalInfo extends React.Component{
-   constructor(props){
-      super(props)
+export default function PersonalInfo() {
+   const [showForm, setShowForm] = useState(false)
+   const setForm = () => setShowForm(true);
+   // const info = { name: 'Set Fullname', email: 'Set Email adress', phone: 'Set Phone number'}
 
-      this.state = {
-         showForm: false,
-         information: {
-            name: 'Set Fullname',
-            email: 'Set Email adress',
-            phone: 'Set Phone number'
-         }
-      }
+   const [information, setInformation] = useState({
+      name: 'Set Fullname',
+      email: 'Set Email adress',
+      phone: 'Set Phone number'
+   })
 
-      this.showForm = this.showForm.bind(this)
-      this.updateInfo = this.updateInfo.bind(this)
-   }
-
-   showForm = () => {
-      const info = { name: 'Set Fullname', email: 'Set Email adress', phone: 'Set Phone number'}
-      this.setState({ information: info })
-      this.setState({ showForm : true });
-   }
-
-   updateInfo = (receivedInfo) => {
-      this.setState({ information : {
+   const updateInfo = (receivedInfo) => {
+      setInformation({
          name: receivedInfo.name,
-         email: receivedInfo.email,
          phone: receivedInfo.phone,
-      }, 
-      showForm : false })
-
+         email: receivedInfo.email
+      }) 
+      setShowForm(false)
    }
 
-   render(){
-      const information = this.state.information;
-      return(
-         <section className="personal-info container">
-            <h1>Personal Information <button onClick={this.showForm}>+</button></h1>
-            <div className={"form " + (this.state.showForm ? '' : 'hidden') }>
-               <Form data={information} callback={this.updateInfo} />
+   return (
+      <section className="personal-info container">
+         <h1>Personal Information <button onClick={setForm}>+</button></h1>
+         <div className={"form " + (showForm ? '' : 'hidden') }>
+               <Form data={information} callback={updateInfo} />
             </div>
-            <h2><strong>Fullname : </strong>{information.name}</h2>
-            <h2><strong>Email : </strong>{information.email}</h2>
-            <h2><strong>Phone number : </strong>{information.phone}</h2>
-         </section>
-      )
-   }
+         <h2><strong>Fullname : </strong>{information.name}</h2>
+         <h2><strong>Email : </strong>{information.email}</h2>
+         <h2><strong>Phone number : </strong>{information.phone}</h2>
+      </section>
+   )
+
 }
 
-class Form extends React.Component{
-   constructor(props){
-      super(props)
+function Form(props) {
+   const [name, setName] = useState(props.data.name)
+   const [phone, setPhone] = useState(props.data.phone)
+   const [email, setEmail] = useState(props.data.email)
 
-      this.state = { name: this.props.data.name, email: this.props.data.email, phone: this.props.data.phone }
-
-      this.updateState = this.updateState.bind(this)
-   }
-
-   submit = e => {
+   const submit = e => {
       e.preventDefault()
-      this.props.callback(this.state)
+      props.callback({name, phone, email})
    }
 
-   updateState = e => {
-      if (e.target.id === 'name'){
-         this.setState({ name: e.target.value })
-      }else if (e.target.id === 'email'){
-         this.setState({ email: e.target.value })
-      }else if (e.target.id === 'phone'){
-         this.setState({ phone: e.target.value })
+   const updateState = e => {
+      if (e.target.id === 'name') {
+         setName(e.target.value)
+      } else if (e.target.id === 'email') {
+         setEmail(e.target.value)
+      } else if (e.target.id === 'phone') {
+         setPhone(e.target.value)
       }
    }
 
-   render(){
-      return(
-         <form onSubmit={this.submit}>
-            <p>
-               <label>Fullname : </label>
-               <input id='name' placeholder={this.state.name} onChange={this.updateState} required></input>
-            </p>
-            <p>
-               <label>Email : </label>
-               <input type='email' id='email' placeholder={this.state.email} onChange={this.updateState} required></input>
-            </p>
-            <p>
-               <label>Phone : </label>
-               <input type='tel' id='phone' placeholder={this.state.phone} onChange={this.updateState} required></input>
-            </p>
-            <p><button>Submit</button></p>
-         </form>
-      )
-   }
+   return (
+      <form onSubmit={submit}>
+         <p>
+            <label>Fullname : </label>
+            <input id='name' placeholder={name} onChange={updateState} required></input>
+         </p>
+         <p>
+            <label>Email : </label>
+            <input type='email' id='email' placeholder={email} onChange={updateState} required></input>
+         </p>
+         <p>
+            <label>Phone : </label>
+            <input type='tel' id='phone' placeholder={phone} onChange={updateState} required></input>
+         </p>
+         <p><button>Submit</button></p>
+      </form>
+   )
 }
