@@ -17,4 +17,10 @@ body{
 aside{
    background-color: blueviolet;
    color: white;
+   border-radius: 2rem 0 0 2rem;
+}
+
+main{
+   background-color: ghostwhite;
+   border-radius: 0 2rem 2rem 0;
 }

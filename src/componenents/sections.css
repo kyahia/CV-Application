@@ -38,7 +38,7 @@ h2>button{
 }
 
 .steps{
-   padding: 1rem;
+   padding: 1rem 1rem 0 1rem;
 }
 .step:nth-child(n+2){
    margin-top: .5rem;
