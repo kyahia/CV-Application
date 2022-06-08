@@ -5,10 +5,15 @@ import Experience from './componenents/Experience';
 
 function App () {
   return (
-    <div>
+    <div className="app-wrapper">
+      <aside>
       <PersonalInfo />
+      </aside>
+      <main>
       <Education />
+      <div id="separator"></div>
       <Experience />
+      </main>
     </div>
   )
 }

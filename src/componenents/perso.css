@@ -1,0 +1,29 @@
+.personal-info{
+   padding: 1rem;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-evenly;
+   min-height: 100vh;
+}
+.personal-info h1{
+   text-align: center;
+}
+
+.personal-info img{
+   width: 50%;
+}
+
+.personal-info p{
+   display: flex;
+   justify-content: space-between;
+}
+
+p label, p input{
+   flex-basis: 50%;
+}
+
+.buttons{
+   font-size: 1.2em;
+   text-align: center;
+}
+

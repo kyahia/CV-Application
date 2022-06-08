@@ -8,6 +8,7 @@ export default function Experience (){
    const [from, setFrom] = useState('')
    const [to, setTo] = useState('')
    const [title, setTitle] = useState('')
+   const [jobDesc, setJobDesc] = useState('')
    const [tasks, setTasks] = useState('')
    const [id, setId] = useState(uniqid('job-'))
 
@@ -22,9 +23,9 @@ export default function Experience (){
             <p>
                <label>From : </label>
                <input id="from" type="date" onChange={e => setFrom(e.target.value)} required defaultValue={from}></input>
-               <label> To : </label>
+               <label style={{textAlign: 'center'}}>To : </label>
                <input id="job-to" type="date" onChange={e => setTo(e.target.value)} required defaultValue={(to !== 'actual') ? to : ''}></input>
-               <label htmlFor='actual-step'> Actual </label>
+               <label htmlFor='actual-step' style={{textAlign: 'center'}}>Actual </label>
                <input id='actual-step' type='checkbox' onChange={setActual}></input>
             </p>
             <p>
@@ -32,14 +33,16 @@ export default function Experience (){
                <input id="title" onChange={e => setTitle(e.target.value)} required defaultValue={title}></input>
             </p>
             <p>
+               <label>Role description : </label>
+               <input id="job-description" onChange={e => setJobDesc(e.target.value)} required defaultValue={jobDesc}></input>
+            </p>
+            <p>
                <label>Tasks : </label>
-               <textarea id="tasks" onChange={e => setTasks(()=> {
-                  let txt = e.target.value;
-                  let listing = txt.split('\n')
-                  return txt;
-               })} required defaultValue={tasks} cols={50} rows={5}></textarea>
+               <textarea id="tasks" onChange={e => setTasks(e.target.value)} 
+               required defaultValue={tasks} cols={50} rows={5}></textarea>
             </p>
             <button type="submit">Submit</button>
+            <button type="button" onClick={() => setShowFrom(!showForm)}>Cancel</button>
          </form>
       )
    }
@@ -57,7 +60,7 @@ export default function Experience (){
 
    function submitExp(e){
       e.preventDefault()
-      const job = {company, from, to, title, tasks, id}
+      const job = {company, from, to, title, jobDesc, tasks, id}
       setJobs(prev => prev.concat(job))
       setShowFrom(false)
       setCompany('')
@@ -78,6 +81,7 @@ export default function Experience (){
       setFrom(edition.from)
       setTo(edition.to)
       setTitle(edition.title)
+      setJobDesc(edition.jobDesc)
       setTasks(edition.tasks)
       setId(edition.id)
       setShowFrom(true)
@@ -106,26 +110,36 @@ function Steps(props) {
    if (!orderedSteps) return null
 
    return (
-      <div>
+      <div className='steps'>
          {orderedSteps.map(job => {
             let tasksUl = job.tasks.split('\n')
             return (
-               <div key={job.id}>
-                  <h3>
-                     <span>{job.title} </span>
+               <div key={job.id} className='step'>
+                  <h2>
+                     <strong>{capitalize(job.title)}</strong>
                      <button onClick={props.editStep} id={job.id}>E</button>
                      <button onClick={props.deleteStep} id={job.id}>X</button>
-                  </h3>
-                  <h4>{job.company}</h4>
-                  <p>{job.from} - {job.to}</p>
-                  <p>
-                     <strong>Tasks: </strong>
+                     <br/>
+                     <em>{job.from.slice(0,4)} - {(job.to === 'actual') ? '(actual)' : job.to.slice(0,4)}
+                     : {camelCase(job.company)}
+                     </em>
+                  </h2>
+                  <p>{job.jobDesc}</p>
+                  <ul>
                      {tasksUl.map((line, key) => (line !== '') ? <li key={key}>{line}</li> : null)}
-                  </p>
+                  </ul>
                </div>
             )
          })}
       </div>
    )
+}
+
+function camelCase(txt){
+   const arr = txt.split(' ');
+   return arr.map(word => word[0].toUpperCase() + word.slice(1)).join(' ')
+}
+function capitalize(txt){
+   return txt[0].toUpperCase() + txt.slice(1)
 }
 

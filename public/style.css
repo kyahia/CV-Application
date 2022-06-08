@@ -1,0 +1,20 @@
+body{
+   margin: 0;
+}
+
+@media print {
+   button{
+      display: none;
+   }
+}
+
+.app-wrapper{
+   min-height: 100vh;
+   display: grid;
+   grid-template-columns: 1fr 4fr;
+}
+
+aside{
+   background-color: blueviolet;
+   color: white;
+}

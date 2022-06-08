@@ -10,17 +10,16 @@ function Steps(props) {
    });
 
    return (
-      <div>
+      <div className="steps">
          {orderedSteps.map(study => {
             return (
-               <div key={study.id}>
-                  <h3>
-                     <span>{study.title} </span>
+               <div key={study.id} className="step">
+                  <h2>
+                     <strong>{capitalize(study.title)} </strong>
                      <button onClick={props.editStep} id={study.id}>E</button>
                      <button onClick={props.deleteStep} id={study.id}>X</button>
-                  </h3>
-                  <h4>{study.univ}</h4>
-                  <p>{study.from} - {study.to}</p>
+                  </h2>
+                  <h3>{study.from}_{study.to} : {camelCase(study.univ)}</h3>
                </div>
             )
          })}
@@ -49,12 +48,12 @@ export default function Education(){
             <p>
                <label>From : </label>
                <input id="from" type="date" onChange={e => setFrom(e.target.value)} required defaultValue={from}></input>
-               <label> To : </label>
+               <label style={{textAlign: 'right'}}> To : </label>
                <input 
                   id="univ-to" type="date" onChange={e => setTo(e.target.value)} defaultValue={(to !== 'actual') ? to : ''}
                   required={to !== 'actual'}  disabled={to === 'actual'}>
                </input>
-               <label htmlFor='actual-step'> Actual </label>
+               <label htmlFor='actual-step' style={{textAlign: 'right'}}> Actual </label>
                <input id='actual-step' type='checkbox' 
                   defaultChecked={to !== 'actual' ? false : true}
                   onChange={setActual}
@@ -65,6 +64,7 @@ export default function Education(){
                <input id="title" onChange={e => setTitle(e.target.value)} required defaultValue={title}></input>
             </p>
             <button type="submit">Submit</button>
+            <button type="button" onClick={() => setShowForm(!showForm)}>Cancel</button>
          </form>
       )
    }
@@ -114,4 +114,12 @@ export default function Education(){
          <Steps data={studies} deleteStep={deleteItem} editStep={editItem} />
       </section>
    )
+}
+
+function camelCase(txt){
+   const arr = txt.split(' ');
+   return arr.map(word => word[0].toUpperCase() + word.slice(1)).join(' ')
+}
+function capitalize(txt){
+   return txt[0].toUpperCase() + txt.slice(1)
 }

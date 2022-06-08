@@ -1,14 +1,21 @@
 .container{
-   border: 1px black solid;
-   border-radius: .5rem;
    padding: 1rem;
-   margin: 2rem;
 }
+
+#separator{
+   width: 90%;
+   border: 1px solid black;
+   margin: 0 auto;
+}
+
 h1{
-   display: flex;
-   align-items: center;
-   gap: 1ch;
+   font-size: 2rem;
 }
+
+main h1{
+   margin: 0;
+}
+
 h1>button{
    font-size: 1.5rem;
 }
@@ -17,10 +24,56 @@ h1>button{
    display: none;
 }
 
-h2{
+h2, h3{
+   margin:0;
    font-weight: normal;
 }
 h2>strong{
    display: inline-block;
+   /* width: 15ch; */
+}
+
+h2>button{
+   display: none;
+}
+
+.steps{
+   padding: 1rem;
+}
+.step:nth-child(n+2){
+   margin-top: .5rem;
+}
+
+.step:hover h2>button{
+   display: inline;
+}
+
+.step p{
+   font-size: 1.2rem;
+   margin: 0.4rem 0 0 0;
+}
+
+.step>*{
+   padding-left: 1rem;
+   margin: 0;
+}
+.step h2{
+   padding-left: 0;
+   line-height: 0.8;
+}
+.step ul{
+   font-size: 1.2rem;
+   padding-left: calc(1rem + 2em);
+}
+em{
+   font-size: 1.1rem;
+}
+
+main form label{
+   display: inline-block;
    width: 15ch;
+}
+
+#tasks, #job-description{
+   width: calc(100% - 25ch);
 }
